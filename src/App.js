@@ -1,31 +1,36 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import List from './List'
-import Card from './Card'
-import store from './store';
+import List from './List';
+
+
 
 //props is store from store.js
 function App(props) {
+  console.log(props.store)
 
-  props.lists.forEach(list => list.cardIds.map(card => card = <Card title = {allCards[card].title} content={allCards[card].content} />));
+  for (let i = 0; i < props.store.lists.length; i++) {
+    for (let j = 0; j < props.store.lists[i].cardIds.length; j++) {
+      let card = props.store.lists[i].cardIds[j]
+      console.log(props.store.lists[i].cardIds[j])
+      props.store.lists[i].cardIds[j] = props.store.allCards[card];
+    }
+  }
 
-  const lists = props.lists.map(list => )
+  console.log(props.store)
+  
+
+  const lists = props.store.lists.map(list => <List header={list.header} cards={list.cardIds} />)
 
   return (
-    <main className='App'>
-      {/* content goes here */}
+    <main className="App">
+      <header className="App-header">
+        <h1>Trelloyes!</h1>
+      </header>
+      <div className="App-list">
+        {lists}
+      </div>
     </main>
   );
 }
 
 export default App;
 
-/*
-<section class="List">
-  <header class="List-header">
-    <h2>First list</h2>
-  </header>
-  <div class="List-cards">
-    {lists}
-  </div>
-  */
