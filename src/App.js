@@ -8,9 +8,9 @@ import store from './store';
 function App(props) {
 
   const lists = store.lists.map(list => {<list 
-    key={props.list.Id}
-    header={props.list.header}
-    cards={list.cardIds.map(id => allCards[id])}
+    key={list.id}
+    header={lists.header}
+    cards={lists.cardIds.map(id => list.allCards[id])}
   />})
 
       return  (
