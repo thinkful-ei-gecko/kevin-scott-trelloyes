@@ -7,25 +7,34 @@ import store from './store';
 //props is store from store.js
 function App(props) {
 
-  props.lists.forEach(list => list.cardIds.map(card => card = <Card title = {allCards[card].title} content={allCards[card].content} />));
+  const lists = store.lists.map(list => {<list 
+    key={props.list.Id}
+    header={props.list.header}
+    cards={list.cardIds.map(id => allCards[id])}
+  />})
 
-  const lists = props.lists.map(list => )
+      return  (
+      <main className="App">
+        <header>
+          <h1>Trelloyes</h1> 
+        </header>
+       <div className='app-list'>
+          {lists}
+       </div>
+      </main>
+      )
 
-  return (
-    <main className='App'>
-      {/* content goes here */}
-    </main>
-  );
-}
 
-export default App;
+      }
+    
+  
+    
+    export default App;
+    
+   
+ // const list = props.lists.cardIds.map(id => allCards[id])
+  // console.log(list);
 
-/*
-<section class="List">
-  <header class="List-header">
-    <h2>First list</h2>
-  </header>
-  <div class="List-cards">
-    {lists}
-  </div>
-  */
+  // // props.lists.forEach(list => list.cardIds.map(card => allCards.id));
+
+  // // const lists = props.lists.map(list => )
