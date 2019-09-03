@@ -1,4 +1,5 @@
 import React from 'react';
+import './card.css';
 
 
 //props is title and content

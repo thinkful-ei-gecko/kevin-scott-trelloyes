@@ -1,31 +1,38 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import List from './List'
-import Card from './Card'
-import store from './store';
+import List from './List';
+import './app.css'
+
+
 
 //props is store from store.js
 function App(props) {
+  console.log(props.store)
 
-  const lists = store.lists.map(list => {<list 
-    key={list.id}
-    header={lists.header}
-    cards={lists.cardIds.map(id => list.allCards[id])}
-  />})
+  for (let i = 0; i < props.store.lists.length; i++) {
+    for (let j = 0; j < props.store.lists[i].cardIds.length; j++) {
+      let card = props.store.lists[i].cardIds[j]
+      console.log(props.store.lists[i].cardIds[j])
+      props.store.lists[i].cardIds[j] = props.store.allCards[card];
+    }
+  }
 
-      return  (
-      <main className="App">
-        <header>
-          <h1>Trelloyes</h1> 
-        </header>
-       <div className='app-list'>
-          {lists}
-       </div>
-      </main>
-      )
+  console.log(props.store)
+  
 
+  const lists = props.store.lists.map(list => <List header={list.header} cards={list.cardIds} />)
 
-      }
+  return (
+    <main className="App">
+      <header className="App-header">
+        <h1>Trelloyes!</h1>
+      </header>
+      <div className="App-list">
+        {lists}
+      </div>
+    </main>
+  );
+}
+
     
   
     
@@ -35,6 +42,3 @@ function App(props) {
  // const list = props.lists.cardIds.map(id => allCards[id])
   // console.log(list);
 
-  // // props.lists.forEach(list => list.cardIds.map(card => allCards.id));
-
-  // // const lists = props.lists.map(list => )
