@@ -4,10 +4,17 @@ import './list.css';
 
 //props is a header and an array of cards
 function List(props) {
-  const cards = props.cards.map(card => <Card onDelete={cardId => props.onDelete(cardId)} cardId={card.id} key={card.id} title={card.title} content={card.content} />)
+  let cards = props.cards.map(card => 
+    <Card onDelete={props.onDelete} 
+    cardId={card.id} 
+    key={card.id} 
+    title={card.title} 
+    content={card.content} />)
   return (
     <section className="List" key={props.listId}>
-      <button type="button" className="List-add-button" onClick={() => props.onAddRandomCard(props.listId)}>
+      <button type="button" 
+        className="List-add-button" 
+        onClick={() => props.onAddRandomCard(props.listId)}>
         + Add Random Card
       </button>
       <header className="List-header">

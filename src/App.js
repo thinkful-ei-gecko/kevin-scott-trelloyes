@@ -12,7 +12,12 @@ class App extends React.Component {
   
   generateList() {
     return this.state.lists.map(list => (
-      <List onDelete={this.handleDelete} onAddRandomCard={this.handleAddRandomCard} header={list.header} key={list.id} listId={list.id}
+      <List 
+      onDelete={this.handleDelete} 
+      onAddRandomCard={this.handleAddRandomCard} 
+      header={list.header} 
+      key={list.id} 
+      listId={list.id}
       cards={list.cardIds.map(id => this.state.allCards[id])} />))
   }
 
@@ -21,8 +26,11 @@ class App extends React.Component {
       list.cardIds = list.cardIds.filter(id => id !== cardId);
       return list;
     });
+    // pull out the property with key of 'cardId' (no mutation of original allCards object)
+    let { [cardId]: omit, ...rest } = this.state.allCards;
     this.setState({
       lists: newLists,
+      allCards: rest
     })
   }
 
