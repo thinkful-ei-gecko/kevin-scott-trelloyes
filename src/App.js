@@ -37,11 +37,21 @@ class App extends React.Component {
       }
     }
     let card = newRandomCard(); 
-    let theList = this.state.lists[Number(listId) - 1].cardIds;
-    let newCardIdsList = [...theList, card.id];
+    let currentCardIdList = this.state.lists[Number(listId) - 1].cardIds;
+    let newCardIdsList = [...currentCardIdList, card.id];
+
+    let completeList = this.state.lists.map(list => {
+      if (list.id === listId) {
+        list.cardIds = newCardIdsList;
+        return list;
+      } else {
+        return list
+      }
+    })
+
     this.setState({
       allCards: {...this.state.allCards,  [card.id]: card},
-      // lists: [...this.state.lists, mergedList],
+      lists: completeList
     })
   }
 
