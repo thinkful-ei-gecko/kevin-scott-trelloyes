@@ -3,38 +3,26 @@ import List from './List';
 import './app.css'
 import STORE from './store'
 
-//props is store from store.js
 class App extends React.Component {
   state = {
     lists: STORE.lists,
     allCards: STORE.allCards
   }
-  
-  generateList() {
-    return this.state.lists.map(list => (
-      <List 
-      onDelete={this.handleDelete} 
-      onAddRandomCard={this.handleAddRandomCard} 
-      header={list.header} 
-      key={list.id} 
-      listId={list.id}
-      cards={list.cardIds.map(id => this.state.allCards[id])} />))
-  }
 
   handleDelete = (cardId) => {
     let newLists = this.state.lists.map(list => {
-      list.cardIds = list.cardIds.filter(id => id !== cardId);
-      return list;
+      return { ...list, cardIds: list.cardIds.filter(id => id !== cardId) };
     });
-    // pull out the property with key of 'cardId' (no mutation of original allCards object)
-    let { [cardId]: omit, ...rest } = this.state.allCards;
+
+    let { [cardId]: card, ...rest } = this.state.allCards;
+
     this.setState({
       lists: newLists,
       allCards: rest
     })
   }
 
-  handleAddRandomCard = listId => {
+  handleAddRandomCard = (listId) => {
     const newRandomCard = () => {
       const id = Math.random().toString(36).substring(2, 4)
         + Math.random().toString(36).substring(2, 4);
@@ -44,22 +32,20 @@ class App extends React.Component {
         content: 'lorem ipsum',
       }
     }
-    let card = newRandomCard(); 
-    let currentCardIdList = this.state.lists[Number(listId) - 1].cardIds;
-    let newCardIdsList = [...currentCardIdList, card.id];
 
-    let completeList = this.state.lists.map(list => {
+    let randomCard = newRandomCard();
+    let newLists = this.state.lists.map(list => {
       if (list.id === listId) {
-        list.cardIds = newCardIdsList;
+        return { ...list, cardIds: [...list.cardIds, randomCard.id] };
+      } 
+      else {
         return list;
-      } else {
-        return list
       }
     })
 
     this.setState({
-      allCards: {...this.state.allCards,  [card.id]: card},
-      lists: completeList
+      lists: newLists,
+      allCards: { ...this.state.allCards, [randomCard.id]: randomCard }
     })
   }
 
@@ -70,7 +56,14 @@ class App extends React.Component {
           <h1>Trelloyes!</h1>
         </header>
         <div className="App-list">
-          {this.generateList()}
+          {this.state.lists.map(list => (
+            <List
+              onDelete={this.handleDelete}
+              onAddRandomCard={this.handleAddRandomCard}
+              header={list.header}
+              key={list.id}
+              listId={list.id}
+              cards={list.cardIds.map(id => this.state.allCards[id])} />))}
         </div>
       </main>
     );

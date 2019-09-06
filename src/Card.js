@@ -1,7 +1,6 @@
 import React from 'react';
 import './card.css';
 
-//props is title and content and id
 function Card(props) {
   return (
     <div className="Card" key={props.cardId}>
